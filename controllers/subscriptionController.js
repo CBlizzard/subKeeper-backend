@@ -3,20 +3,19 @@ const mongoose = require('mongoose');
 
 
 const getSubscription = async (req, res)=>{
-    const subscriptions = await Subscription.find({}).sort({createdAt: -1})
-    res.json(subscriptions)
+    const user_id = req.user._id
+    const subscriptions = await Subscription.find({user_id}).sort({createdAt: -1})
+    res.status(200).json(subscriptions)
 }
 
 
 const createSubscription = async (req, res)=>{
-    const {vendor, vendorNumber, vendorID, subscriptionName, startingDate, endingDate, price} = req.body;
+    const {vendor, vendorNumber, subscriptionName, startingDate, endingDate, price} = req.body;
 
     let emptyFields = [];
     if(!vendor) emptyFields.push('vendor')
     if(!vendorNumber) emptyFields.push('vendorNumber')
-    if(!vendorID) emptyFields.push('vendorID')
     if(!subscriptionName) emptyFields.push('subscriptionName')
-    if(!startingDate) emptyFields.push('startingDate')
     if(!startingDate) emptyFields.push('startingDate')
     if(!endingDate) emptyFields.push('endingDate')
     if(!price) emptyFields.push('price')
@@ -26,7 +25,8 @@ const createSubscription = async (req, res)=>{
     }
 
     try{
-        const subscription = await Subscription.create({vendor, vendorNumber, vendorID, subscriptionName, startingDate, endingDate, price})
+        const user_id = req.user._id
+        const subscription = await Subscription.create({vendor, vendorNumber, subscriptionName, startingDate, endingDate, price, user_id})
 
         res.status(200).json(subscription)
     }
