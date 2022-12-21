@@ -21,7 +21,7 @@ const createSubscription = async (req, res)=>{
     if(!endingDate) emptyFields.push('endingDate')
     if(!price) emptyFields.push('price')
 
-    if(emptyFields.length > 0){
+    if(emptyFields.length >= 0){
         return res.status(400).json({error: "fill all fields", emptyFields})
     }
 
