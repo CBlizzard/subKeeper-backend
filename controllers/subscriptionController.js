@@ -24,9 +24,6 @@ const createSubscription = async (req, res)=>{
     if(emptyFields.length > 0){
         return res.status(400).json({error: "fill all fields", emptyFields})
     }
-    if(emptyFields.length === 1000){
-        return res.status(400).json({error: "how is it even possible"})
-    }
 
     try{
         const subscription = await Subscription.create({vendor, vendorNumber, vendorID, subscriptionName, startingDate, endingDate, price})
